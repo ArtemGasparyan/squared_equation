@@ -1,30 +1,28 @@
-#include <stdio.h>
-#include <stdlib.h> 
-#include <errno.h>
-#include <math.h>
-
-double input_dub(void);
-
-void discriminant(const double a, const double b, const double c, const double epsilon);
-
-void zero_coefficients(const double a, const double b, const double c, const double epsilon);
+#include "decision.h"
 
 int main(void)
 {   
     printf("An equation of the form is given:ax^2 + bx + c = 0\n");
-    printf("Please enter value confficietn a:\n");
+    printf("Please enter value coеfficietn a:\n");
     const double a = input_dub();
-    printf("Please enter value confficient b:\n");
+    printf("Please enter value coеfficient b:\n");
     const double b = input_dub();
-    printf("Please enter value confficient c:\n");
+    printf("Please enter value coеfficient c:\n");
     const double c = input_dub();
-    const double epsilon = 1e-15;
+    
+    double x1 = NAN;
+    double x2 = NAN;
+    int depented = NULL;
 
-    if (fabs(a) < epsilon || fabs(b) < epsilon || fabs(c) < epsilon)
+    if (check_equally(a, 0.0))
     { 
-        zero_coefficients(a, b, c, epsilon);
-    } else { 
-        discriminant(a, b, c, epsilon);
+        depented = lin_equation(b, c, &x1);
+        conclusion_depends_on_the_solution(depented, &x1, NULL);
+    }
+    else 
+    { 
+        depented = discriminant(a, b, c, &x1, &x2);
+        conclusion_depends_on_the_solution(depented, &x1, &x2);
     }
 
     return 0;
@@ -36,64 +34,80 @@ double input_dub(void)
     double parametr = 0.0;
     int result = scanf("%lf", &parametr);
     if (result != 1)
-    { 
+    {   
         errno = EIO;
+        exit(EXIT_FAILURE);
+    }
+
+    if (result != 2)
+    {
+        printf("enter one value\n");
         exit(EXIT_FAILURE);
     }
 
     return parametr;
 }
 
-void discriminant(const double a, const double b, const double c, const double epsilon)
-{  
-    double x1 = 0.0;
-    double x2 = 0.0;
-    double discriminant = pow(b, 2) - (4 * a * c);
-    if (discriminant > epsilon)
-    { 
-        x1 = (sqrt(discriminant) - b) / (2 * a);
-        x2 = (sqrt(discriminant) + b) / (2 * a);
-        printf("x1 = %lf, x2 = %lf\n", x1, x2); 
-    }
+int check_equally(double num1, double num2)
+{   
+    return fabs(num1 - num2) < EPS;
+}
 
-    if (fabs(discriminant) < epsilon)
+int lin_equation(const double b, const double c, double *x1)
+{ 
+    if (check_equally(b, 0.0) && check_equally(c, 0.0))
     { 
-        x1 = -b / (2 * a);
-        printf("Discriminant = 0 => x = %lf\n", x1);
+        return -1; //это бесконечное кол-во решений, а не no solution :)//
     }
-
-    if(discriminant < epsilon)
+    else if (check_equally(b, 0.0))
+    {
+        return 0; //нет решений с = 0, с - число
+    }
+    else
     { 
-        printf("an empty set\n");
+        *x1 = -c / b;
+        return 1; 
     }
 }
 
-void zero_coefficients(const double a, const double b, const double c, const double epsilon)
+int discriminant(const double a, const double b, const double c, double *x1, double *x2)
 { 
-    double x1 = 0.0;
-    double x2 = 0.0;
-    if (fabs(a) < epsilon) {
-        if (fabs(b) < epsilon) {
-            if (fabs(c) < epsilon) {
-                printf("0 = 0\n");
-        }
-        printf("no solution\n");
-    }
-    x1 = -c / b;
-    printf("x = %lf\n", x1);
-    }
+    double disc = b * b - (4 * a * c);
 
-    if (fabs(b) < epsilon)
+    if (disc > EPS) 
     { 
-        x1 = sqrt(-c / a);
-        x2 = -x1;
-        printf("x1 = %lf, x2 = %lf", x1, x2);
+        *x1 = (-b + sqrt(disc)) / (2 * a);
+        *x2 = (-b - sqrt(disc)) / (2 * a);
+        return 1;
     }
-
-    if (fabs(c) < epsilon)
+    else if (check_equally(disc, 0.0))
     { 
-        x1 = 0.0;
-        x2 = sqrt(-c / a);
-        printf("x1 = %lf, x2 = %lf", x1, x2);
+        *x1 = -b / (2 * a);
+        return 2;
+    }
+    else
+    {
+        return 0; //нет корней//
+    }
+}
+
+void conclusion_depends_on_the_solution(int depented, double *x1, double *x2)
+{ 
+    switch(depented)
+    { 
+        case -1:
+            printf("an infinite number of solutions\n");
+            break;
+        case 0:
+            printf("no solution\n");
+            break;
+        case 1:
+            printf("x1 = %lf\t x2 = %lf", *x1, *x2);
+            break;
+        case 2:
+            printf("x = %lf\n", *x1);
+            break;
+        default:
+            exit(EXIT_FAILURE);
     }
 }
