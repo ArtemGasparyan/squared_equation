@@ -12,7 +12,7 @@ int main(void)
     
     double x1 = NAN;
     double x2 = NAN;
-    int depented = NULL;
+    int depented = 0;
 
     if (check_equally(a, 0.0))
     { 
@@ -38,13 +38,11 @@ double input_dub(void)
         errno = EIO;
         exit(EXIT_FAILURE);
     }
-
-    if (result != 2)
-    {
-        printf("enter one value\n");
+    while (getchar() != '\n')
+    { 
+        printf("only one value should be entered.\n");
         exit(EXIT_FAILURE);
     }
-
     return parametr;
 }
 
