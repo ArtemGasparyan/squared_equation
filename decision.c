@@ -1,27 +1,5 @@
 #include "decision.h"
 
-/**
- * @brief получает на вход число из потока ввода
- * @return возвращает полученное число, в ином случае возвращает ошибку и делает exit
- */
-double input_dub(void);
-
-/**
- * @brief функция проверяет double на =
- * @param num1 переменная num1
- * @param num2 переменная num2
- * @return 1 - в случае если =. 0 - в случае  !=
- */
-int check_equally(double num1, double num2);
-
-/**
- * @brief функция проверяет double = 0
- * @param digit переменная digit
- * @return 1 = в случае если = 0. 0 - в случае если != 0 
- */
-int check_equallu_one_value(double digit);
-
-
 int main(void)
 {   
     printf("An equation of the form is given:ax^2 + bx + c = 0\n");
@@ -32,6 +10,21 @@ int main(void)
     printf("Please enter value coеfficient c:\n");
     const double c = input_dub();
     
+    double x1 = NAN;
+    double x2 = NAN;
+    int depented = NULL;
+
+    if (check_equally(a, 0.0))
+    { 
+        depented = lin_equation(b, c, &x1);
+        conclusion_depends_on_the_solution(depented, &x1, NULL);
+    }
+    else 
+    { 
+        depented = discriminant(a, b, c, &x1, &x2);
+        conclusion_depends_on_the_solution(depented, &x1, &x2);
+    }
+
     return 0;
 
 }
@@ -60,7 +53,61 @@ int check_equally(double num1, double num2)
     return fabs(num1 - num2) < EPS;
 }
 
-int check_equallu_one_value(double digit)
+int lin_equation(const double b, const double c, double *x1)
 { 
-    return fabs(digit) < EPS;
+    if (check_equally(b, 0.0) && check_equally(c, 0.0))
+    { 
+        return -1; //это бесконечное кол-во решений, а не no solution :)//
+    }
+    else if (check_equally(b, 0.0))
+    {
+        return 0; //нет решений с = 0, с - число
+    }
+    else
+    { 
+        *x1 = -c / b;
+        return 1; 
+    }
 }
+
+int discriminant(const double a, const double b, const double c, double *x1, double *x2)
+{ 
+    double disc = b * b - (4 * a * c);
+
+    if (disc > EPS) 
+    { 
+        *x1 = (-b + sqrt(disc)) / (2 * a);
+        *x2 = (-b - sqrt(disc)) / (2 * a);
+        return 1;
+    }
+    else if (check_equally(disc, 0.0))
+    { 
+        *x1 = -b / (2 * a);
+        return 2;
+    }
+    else
+    {
+        return 0; //нет корней//
+    }
+}
+
+void conclusion_depends_on_the_solution(int depented, double *x1, double *x2)
+{ 
+    switch(depented)
+    { 
+        case -1:
+            printf("an infinite number of solutions\n");
+            break;
+        case 0:
+            printf("no solution\n");
+            break;
+        case 1:
+            printf("x1 = %lf\t x2 = %lf", *x1, *x2);
+            break;
+        case 2:
+            printf("x = %lf\n", *x1);
+            break;
+        default:
+            exit(EXIT_FAILURE);
+    }
+}   
