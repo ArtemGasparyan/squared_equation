@@ -31,7 +31,7 @@ int main(void)
 
 double input_dub(void)
 { 
-    double parametr = 0.0;
+    double parametr = NAN;
     int result = scanf("%lf", &parametr);
     if (result != 1)
     {   
@@ -71,11 +71,12 @@ int lin_equation(const double b, const double c, double *x1)
 int discriminant(const double a, const double b, const double c, double *x1, double *x2)
 { 
     double disc = b * b - (4 * a * c);
+    disc = sqrt(disc);
 
     if (disc > EPS) 
     { 
-        *x1 = (-b + sqrt(disc)) / (2 * a);
-        *x2 = (-b - sqrt(disc)) / (2 * a);
+        *x1 = (-b + disc) / (2 * a);
+        *x2 = (-b - disc) / (2 * a);
         return 1;
     }
     else if (check_equally(disc, 0.0))

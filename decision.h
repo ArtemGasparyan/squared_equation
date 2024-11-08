@@ -1,7 +1,11 @@
 #include <stdio.h>
+
 #include <stdlib.h> 
+
 #include <errno.h>
+
 #include <math.h>
+
 #define EPS 1e-15
 
 /**
@@ -17,6 +21,14 @@ double input_dub(void);
  * @return 1 - в случае если =. 0 - в случае  !=
  */
 int check_equally(double num1, double num2);
+
+/**
+ * @brief функция, которая выводит ответ в зависимости от решения
+ * @param depented отвечает за количество корней, которые удалось найти в уравнении.
+ * @param x1 переменная x1
+ * @param x2 переменная x2 
+ */
+void conclusion_depends_on_the_solution(int depented, double *x1, double *x2);
 
 /**
  * @brief функция, рассчитывающая линейное уравнение => а = 0
@@ -41,11 +53,3 @@ int lin_equation(const double b, const double c, double *x1);
  * @return 0 не имеет корней
  */
 int discriminant(const double a, const double b, const double c, double *x1, double *x2);
-
-/**
- * @brief функция, которая выводит ответ в зависимости от решения
- * @param depented отвечает за количество корней, которые удалось найти в уравнении.
- * @param x1 переменная x1
- * @param x2 переменная x2 
- */
-void conclusion_depends_on_the_solution(int depented, double *x1, double *x2);
