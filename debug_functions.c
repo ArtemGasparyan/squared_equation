@@ -23,7 +23,7 @@ void open_file() {
     for (int i = 0; i < kol_vo_line; i++) { 
         int prikol = fscanf(testfile, "%lf %lf %lf %d", &a, &b, &c, &kol_vo_roots);
         if (prikol < 4) { 
-            fprintf(stderr, "Brat, idi read instruction\n");
+            perror("Brat, idi read instruction\n");
             exit(EXIT_FAILURE);
         }
 
