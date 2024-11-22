@@ -1,12 +1,4 @@
-#ifndef FUNCTION_FOR_EQUATION_H
 #include "function_for_equation.h"
-
-enum decisions {
-    INF = -1,
-    NO_SOLUTION = 0,
-    TWO_SOL = 2,
-    ONE_SOL = 1
-}; 
 
 double input_dub(void)
 { 
@@ -52,8 +44,8 @@ int discriminant(const double a, const double b, const double c, double *x1, dou
 {   
     assert(x1 != NULL);
     assert(x2 != NULL);
-    double disc = b * b - (4 * a * c);
-    disc = sqrt(disc);
+    double discriminant = b * b - (4 * a * c);
+    double disc = sqrt(discriminant);
 
     if (disc > EPS) 
     { 
@@ -93,5 +85,3 @@ void conclusion_depends_on_the_solution(int depented, double *x1, double *x2)
             exit;
     }
 }
-
-#endif

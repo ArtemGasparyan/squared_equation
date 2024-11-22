@@ -1,3 +1,11 @@
+#ifndef FUNCTION_FOR_EQUATION_H
+
+#define FUNCTION_FOR_EQUATION_H
+
+#define DEBUG_MOD
+
+#define DEBIL "DEBIL"
+
 #include <stdio.h>
 
 #include <stdlib.h> 
@@ -9,6 +17,23 @@
 #include <assert.h>
 
 #define EPS 1e-15
+
+
+enum decisions {
+    INF = -1,
+    NO_SOLUTION = 0,
+    TWO_SOL = 2,
+    ONE_SOL = 1
+}; 
+
+enum DEBUG {
+    FILE_POTERYALSYA = 0,
+    ESHKERE = 1,
+    NEMA_CORNEI = 2,
+    COREN_ADIN = 3,
+    CORNEI_DVA = 4
+};
+
 
 /**
  * @brief получает на вход число из потока ввода
@@ -55,3 +80,5 @@ int lin_equation(const double b, const double c, double *x1);
  * @return 0 не имеет корней
  */
 int discriminant(const double a, const double b, const double c, double *x1, double *x2);
+
+#endif //FUNCTION_FOR_EQUATION_H
