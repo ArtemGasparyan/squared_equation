@@ -85,3 +85,15 @@ void conclusion_depends_on_the_solution(int depented, double *x1, double *x2)
             exit;
     }
 }
+
+void print_instruction(void)
+{ 
+    printf("Hello, brat, here are the instructions\n");
+    printf("this program solves equations of the form: ax^2 + bx + c = 0");
+    printf("it has two types of solutions.");
+    printf("software solution or debug mod\n");
+    printf("options:\n");
+    printf("//#define DEBUG_MOD(file function_for_equatio.h)                 the debug mod, the file launched, data is read from it, checked and a response is issued\n");
+    printf("-h                                                               instructions epti\n");
+    printf("                                                                 to run it in normal mode, write task.exe\n");
+}

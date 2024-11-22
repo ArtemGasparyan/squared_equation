@@ -4,7 +4,7 @@
 
 #define DEBUG_MOD
 
-#define DEBIL "DEBIL"
+#define LOL "BOLSHIE KURTKI" 
 
 #include <stdio.h>
 
@@ -16,6 +16,8 @@
 
 #include <assert.h>
 
+#include <string.h>
+
 #define EPS 1e-15
 
 
@@ -26,14 +28,13 @@ enum decisions {
     ONE_SOL = 1
 }; 
 
-enum DEBUG {
-    FILE_POTERYALSYA = 0,
-    ESHKERE = 1,
-    NEMA_CORNEI = 2,
-    COREN_ADIN = 3,
-    CORNEI_DVA = 4
+enum debuginnggggg{
+    OSHIBKA = -1,
+    ROOTS_1 = 0, 
+    ROOTS_2 = 1,
+    KORNEI_NEMA = 2,
+    OCHEN_MNOGA_RESHENII = 3
 };
-
 
 /**
  * @brief получает на вход число из потока ввода
@@ -80,5 +81,34 @@ int lin_equation(const double b, const double c, double *x1);
  * @return 0 не имеет корней
  */
 int discriminant(const double a, const double b, const double c, double *x1, double *x2);
+
+/**
+ * @brief функция открывает файл и считывает из него данные
+ */
+void open_file();
+
+/**
+ * @brief функция проверяет корректность решений квадратного уравнения
+ * @param kol_vo_roots перемнная, отвечающая за кол-во корней в исходном файле
+ * @param roots_file переменная, отвечающая за кол-во корней решенных прогой
+ */
+int debug(int kol_vo_roots, int roots_file);
+
+/**
+ * @brief вывод дебага нафик
+ * @param a - коээффициент а, считанный из файла
+ * @param b - коэффициент b, считанный из файла
+ * @param c - коэффициент с, считанный из файла
+ * @param kol_vo_roots - кол-во корней в исходном файле
+ * @param roots_file - кол-во корней рассчитынных программой
+ * @param x1_file - переменная x1, считанная из файла 
+ * @param x2_file - переменная x2, считанная из файла
+ * @param kol_vo_line - кол-во строк в исходном файле
+ * @param now_x1 - рассчитанная программой переменная x1
+ * @param now_x2 - рассчитанная программой переменная x2
+ */
+void print_debug_nafik(double a, double b, double c, int kol_vo_roots, int roots_file, double x1_file, double x2_file, int kol_vo_line, double now_x1, double now_x2);
+
+void print_instruction(void);
 
 #endif //FUNCTION_FOR_EQUATION_H
