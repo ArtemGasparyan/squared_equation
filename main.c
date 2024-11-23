@@ -7,9 +7,10 @@ int main(int argc, char* argv[]) {
     }
 
     #ifdef DEBUG_MOD
-        printf("Debug mode activated.\n");
+        printf("DEBUG POEXALO\n");
         open_file(); 
     #else
+        printf("Bez debaga workaet\n");
         printf("This is a program for solving squared equations by attilt\n");
         printf("Please enter value a:\n");
         const double a = input_dub();
