@@ -80,7 +80,7 @@ void print_debug_nafik(double a, double b, double c, int kol_vo_roots, int roots
             printf("Imeem 2 roots\n v faile bili: %lf and %lf\n rasschitannie: %lf and %lf\n", x1_file, x2_file, now_x1, now_x2);
             break;
         case KORNEI_NEMA: 
-            printf("Imee to, cgto kornei u nas nema\n bilo f file %lf\n rasschitano %lf\n", kol_vo_roots, roots_file);
+            printf("Imee to, chto kornei u nas nema\n bilo f file %lf\n rasschitano %lf\n", kol_vo_roots, roots_file);
             break;
         case OCHEN_MNOGA_RESHENII: 
             printf("Imeem chto resheni u nas doxya:) BOLHIE KURTKI\n");

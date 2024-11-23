@@ -4,22 +4,16 @@
 
 #define DEBUG_MOD
 
-#define LOL "BOLSHIE KURTKI" 
-
-#include <stdio.h>
-
-#include <stdlib.h> 
-
-#include <errno.h>
-
-#include <math.h>
-
-#include <assert.h>
-
-#include <string.h>
+#define LOL printf("BOLSHIE KURTKI\n")
 
 #define EPS 1e-15
 
+#include <stdio.h>
+#include <stdlib.h> 
+#include <errno.h>
+#include <math.h>
+#include <assert.h>
+#include <string.h>
 
 enum decisions {
     INF = -1,
