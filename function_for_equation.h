@@ -2,8 +2,6 @@
 
 #define FUNCTION_FOR_EQUATION_H
 
-#define DEBUG_MOD
-
 #define LOL printf("BOLSHIE KURTKI\n")
 
 #define EPS 1e-15
@@ -22,7 +20,7 @@ enum decisions {
     ONE_SOL = 1
 }; 
 
-enum debuginnggggg{
+enum debuging{
     OSHIBKA = -1,
     ROOTS_1 = 0, 
     ROOTS_2 = 1,
@@ -50,7 +48,7 @@ int check_equally(double num1, double num2);
  * @param x1 указатель на x1
  * @param x2 указатель на x2 
  */
-void conclusion_depends_on_the_solution(int depented, double *x1, double *x2);
+void conclusion_depends_on_the_solution(int depented, double x1, double x2);
 
 /**
  * @brief функция, рассчитывающая линейное уравнение => а = 0
@@ -77,32 +75,13 @@ int lin_equation(const double b, const double c, double *x1);
 int discriminant(const double a, const double b, const double c, double *x1, double *x2);
 
 /**
- * @brief функция открывает файл и считывает из него данные
+ * @brief вызов инструкции
  */
-void open_file();
-
-/**
- * @brief функция проверяет корректность решений квадратного уравнения
- * @param kol_vo_roots перемнная, отвечающая за кол-во корней в исходном файле
- * @param roots_file переменная, отвечающая за кол-во корней решенных прогой
- */
-int debug(int kol_vo_roots, int roots_file);
-
-/**
- * @brief вывод дебага нафик
- * @param a - коээффициент а, считанный из файла
- * @param b - коэффициент b, считанный из файла
- * @param c - коэффициент с, считанный из файла
- * @param kol_vo_roots - кол-во корней в исходном файле
- * @param roots_file - кол-во корней рассчитынных программой
- * @param x1_file - переменная x1, считанная из файла 
- * @param x2_file - переменная x2, считанная из файла
- * @param kol_vo_line - кол-во строк в исходном файле
- * @param now_x1 - рассчитанная программой переменная x1
- * @param now_x2 - рассчитанная программой переменная x2
- */
-void print_debug_nafik(double a, double b, double c, int kol_vo_roots, int roots_file, double x1_file, double x2_file, int kol_vo_line, double now_x1, double now_x2);
-
 void print_instruction(void);
+
+/**
+ * @brief функция выполняющия программу без дебаг мода
+ */
+void print_proga(void);
 
 #endif //FUNCTION_FOR_EQUATION_H

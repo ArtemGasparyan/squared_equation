@@ -1,6 +1,7 @@
 #include "function_for_equation.h"
+#include "debug_functions.h"
 
-void open_file() {
+void debug_function() {
     FILE *testfile = fopen("test.txt", "r");
     if (!testfile) { 
         fprintf(stderr, "ya xz de file, Brat, i dont can open file\n");
@@ -15,36 +16,41 @@ void open_file() {
     }
 
     double a = NAN, b = NAN, c = NAN, x1_file = NAN, x2_file = NAN; 
-    int kol_vo_roots = 0;
     int roots_file = 0;
+    int kol_vo_roots = 0;
     double now_x1 = NAN, now_x2 = NAN;
     
-    printf("Poexalo brat\n");
     for (int i = 0; i < kol_vo_line; i++) { 
-        int prikol = fscanf(testfile, "%lf %lf %lf %d", &a, &b, &c, &kol_vo_roots);
+        int prikol = fscanf(testfile, "%lf %lf %lf %d", &a, &b, &c, &roots_file);
         if (prikol < 4) { 
-            perror("Brat, idi read instruction\n");
+            perror("Brat, go read the instructions\n");
             exit(EXIT_FAILURE);
         }
 
-        if (kol_vo_roots > 0) {
-            prikol = fscanf(testfile, "%lf", &x1_file);
-            if (kol_vo_roots == 2) {
-                prikol = fscanf(testfile, "%lf", &x2_file);
+        if (roots_file > 0) {
+            if (fscanf(testfile, "%lf", &x1_file) != 1) {
+                fprintf(stderr, "Error: missing root x1 in line %d\n", i + 2);
+                fclose(testfile);
+                exit(EXIT_FAILURE);
+            }
+            if (roots_file == 2 && fscanf(testfile, "%lf", &x2_file) != 1) {
+                fprintf(stderr, "Error: missing root x2 in line %d\n", i + 2);
+                fclose(testfile);
+                exit(EXIT_FAILURE);
             }
         }
 
         if (check_equally(a, 0.0)) { 
-            roots_file = lin_equation(b, c, &now_x1);
+            kol_vo_roots = lin_equation(b, c, &now_x1);
         } 
         else { 
-            roots_file = discriminant(a, b, c, &now_x1, &now_x2);
+            kol_vo_roots = discriminant(a, b, c, &now_x1, &now_x2);
         }
 
         print_debug_nafik(a, b, c, kol_vo_roots, roots_file, x1_file, x2_file, kol_vo_line, now_x1, now_x2);
     }
     fclose(testfile);
-    printf("pokeda brat, listen bolshie kurtki\n");
+    printf("Goodbay, brat, listen bolshie kurtki\n");
 }
 
 int debug(int kol_vo_roots, int roots_file)
@@ -52,16 +58,16 @@ int debug(int kol_vo_roots, int roots_file)
     if (kol_vo_roots != roots_file)
         return OSHIBKA;
 
-    if (roots_file == 1)
+    if (kol_vo_roots == 1)
         return ROOTS_1;
 
-    if (roots_file == 2)
+    if (kol_vo_roots== 2)
         return ROOTS_2;
 
-    if (roots_file == 0)
+    if (kol_vo_roots == 0)
         return KORNEI_NEMA;
 
-    if (roots_file == -1)
+    if (kol_vo_roots == -1)
         return OCHEN_MNOGA_RESHENII;
 
 }
@@ -71,19 +77,19 @@ void print_debug_nafik(double a, double b, double c, int kol_vo_roots, int roots
     int debug_result = debug(kol_vo_roots, roots_file);
     switch (debug_result) { 
         case OSHIBKA:
-            fprintf(stderr, "Proizohla konkretnay oshibka, brat(podscazy v raschetax)\n");
+            fprintf(stderr, "We have konkretnay oshibka, brat\n");
             break;
         case ROOTS_1:
-            printf("Imeem 1 roots\n v faile bil: %lf\n rasschitanni: %lf\n", x1_file, now_x1);
+            printf("Have 1 roots\n in file: %lf\n calculated: %lf\n", x1_file, now_x1);
             break;
         case ROOTS_2:
-            printf("Imeem 2 roots\n v faile bili: %lf and %lf\n rasschitannie: %lf and %lf\n", x1_file, x2_file, now_x1, now_x2);
+            printf("Have 2 roots\n v in file: %lf and %lf\n calculated: %lf and %lf\n", x1_file, x2_file, now_x1, now_x2);
             break;
         case KORNEI_NEMA: 
-            printf("Imee to, chto kornei u nas nema\n bilo f file %lf\n rasschitano %lf\n", kol_vo_roots, roots_file);
+            printf("Not a single root\n in file %lf\n calculated %lf\n", roots_file, kol_vo_roots);
             break;
         case OCHEN_MNOGA_RESHENII: 
-            printf("Imeem chto resheni u nas doxya:) BOLHIE KURTKI\n");
+            printf("Infinitely many solutions\n");
             break;
         default:
             LOL;

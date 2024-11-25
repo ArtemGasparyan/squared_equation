@@ -47,7 +47,7 @@ int discriminant(const double a, const double b, const double c, double *x1, dou
     double discriminant = b * b - (4 * a * c);
     double disc = sqrt(discriminant);
 
-    if (disc > EPS) 
+    if (fabs(disc) > EPS) 
     { 
         *x1 = (-b + disc) / (2 * a);
         *x2 = (-b - disc) / (2 * a);
@@ -64,7 +64,7 @@ int discriminant(const double a, const double b, const double c, double *x1, dou
     }
 }
 
-void conclusion_depends_on_the_solution(int depented, double *x1, double *x2)
+void conclusion_depends_on_the_solution(int depented, double x1, double x2)
 { 
     switch(depented)
     { 
@@ -75,10 +75,10 @@ void conclusion_depends_on_the_solution(int depented, double *x1, double *x2)
             printf("no solution\n");
             break;
         case ONE_SOL:
-            printf("x1 = %lf\t x2 = %lf", *x1, *x2);
+            printf("x = %lf", x1);
             break;
         case TWO_SOL:
-            printf("x = %lf\n", *x1);
+            printf("x1 = %lf\tx2 = %lf\n", x1, x2);
             break;
         default:
             printf("xz cho tut napisat\n");
@@ -89,11 +89,32 @@ void conclusion_depends_on_the_solution(int depented, double *x1, double *x2)
 void print_instruction(void)
 { 
     printf("Hello, brat, here are the instructions\n");
-    printf("this program solves equations of the form: ax^2 + bx + c = 0");
-    printf("it has two types of solutions.");
-    printf("software solution or debug mod\n");
+    printf("This program solves equations of the form: ax^2 + bx + c = 0\n");
+    printf("It has two types of solutions.\n");
+    printf("Software solution or debug mod.\n");
     printf("options:\n");
-    printf("//#define DEBUG_MOD(file function_for_equatio.h)                 the debug mod, the file launched, data is read from it, checked and a response is issued\n");
-    printf("-h                                                               instructions epti\n");
-    printf("                                                                 to run it in normal mode, write task.exe\n");
+    printf("\n//gcc -DDEBUG_MOD\tDebug mod - here all the roots and coefficients are read from the file\n\t\t\t\t(you can see an example of the data in the file test.txt ).\n\t\t\t\t The first 3 values are coefficients, followed by the number of roots, then their values.\n\t\t\t\t I think you've got it all figured out. Naturally, you can change these tests to your own.\n");
+    printf("\n-h\t\tYou've figured out how to run the instructions yourself \n");
+    printf(".exe\t\tto run it in normal mode\n");
+    printf("Athour: @Atiltt");
+}
+void print_proga(void){
+        printf("Bez debaga workaet\n");
+        printf("Please enter value a:\n");
+        const double a = input_dub();
+        printf("Please enter value b:\n");
+        const double b = input_dub();
+        printf("Please enter value c:\n");
+        const double c = input_dub();
+
+        double x1 = NAN, x2 = NAN;
+        int dependet = 0;
+
+        if (check_equally(a, 0.0)) { 
+            dependet = lin_equation(b, c, &x1);
+            conclusion_depends_on_the_solution(dependet, x1, NAN);
+        } else { 
+            dependet = discriminant(a, b, c, &x1, &x2);
+            conclusion_depends_on_the_solution(dependet, x1, x2);
+        }
 }
